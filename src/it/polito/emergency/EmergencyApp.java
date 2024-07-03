@@ -15,12 +15,14 @@ public class EmergencyApp {
     TreeMap<String, Department> departments;
     TreeMap<String, Patient> patients;
     TreeMap<String, Report> reports;
+    int reportCount;
 
     public EmergencyApp() {
         this.professionals = new TreeMap<>();
         this.departments = new TreeMap<>();
         this.patients = new TreeMap<>();
         this.reports = new TreeMap<>();
+        this.reportCount = 1000;
     }
 
     public enum PatientStatus {
@@ -250,10 +252,13 @@ public class EmergencyApp {
         }
         Patient myPatient = patients.get(fiscalCode);
         List<Professional> selectedProfessionals = professionals.values().stream()
-        .filter(p -> p.specialization.equals(specialization) && p.isAvailable(myPatient.getDateTimeAccepted()))
+        .filter(p -> p.specialization.equals(specialization) && p.containsDate(myPatient.getDateTimeAccepted()))
         .collect(Collectors.toList());
         if (selectedProfessionals.isEmpty()) {
             throw new EmergencyException();
+        }
+        if (selectedProfessionals.size() == 1) {
+            return selectedProfessionals.get(0).getId();
         }
         Collections.sort(selectedProfessionals, (p, q) -> p.getId().compareTo(q.getId()));                                            
         return selectedProfessionals.get(0).getId();
@@ -263,8 +268,9 @@ public class EmergencyApp {
         if (!professionals.containsKey(professionalId)) {
             throw new EmergencyException();
         }
-        Report newReport = new Report(professionalId, fiscalCode, date, description);
+        Report newReport = new Report(professionalId, fiscalCode, date, description, reportCount);
         reports.put(newReport.getId(), newReport);
+        reportCount++;
         return newReport;
     }
 

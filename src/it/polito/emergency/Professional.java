@@ -34,6 +34,15 @@ public class Professional {
         return period;
     }
 
+    public boolean containsDate(String desiredDate) {
+        String startPeriod = this.period.split(" to ")[0];
+        String endPeriod = this.period.split(" to ")[1];
+        if (startPeriod.compareTo(desiredDate) <= 0 && endPeriod.compareTo(desiredDate) >= 0) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean isAvailable(String desiredPeriod) {
         // LocalDate startPeriod = LocalDate.parse(this.period.split(" to ")[0]);
         // LocalDate endPeriod = LocalDate.parse(this.period.split(" to ")[1]);
