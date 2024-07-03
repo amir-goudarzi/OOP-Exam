@@ -282,7 +282,20 @@ public class EmergencyApp {
      * @throws EmergencyException If the patient does not exist or if the department does not exist.
      */
     public void dischargeOrHospitalize(String fiscalCode, String departmentName) throws EmergencyException {
-        //TODO: to be implemented
+        if (!departments.containsKey(departmentName)) {
+            throw new EmergencyException();
+        }
+        if (!patients.containsKey(fiscalCode)) {
+            throw new EmergencyException();
+        }
+        Department selectedDepartment = departments.get(departmentName);
+        Patient selectedPatient = patients.get(fiscalCode);
+        int count = (int) patients.values().stream().filter(p -> p.getStatus().equals(PatientStatus.HOSPITALIZED)).count();
+        if (count < selectedDepartment.maxPatients) {
+            selectedPatient.status = PatientStatus.HOSPITALIZED;
+        } else {
+            selectedPatient.status = PatientStatus.DISCHARGED;
+        }
     }
 
     /**
@@ -293,8 +306,16 @@ public class EmergencyApp {
      * @throws EmergencyException If no patient is found with the given fiscal code.
      */
     public int verifyPatient(String fiscalCode) throws EmergencyException{
-        //TODO: to be implemented
-        return -1;
+        if (!patients.containsKey(fiscalCode)) {
+            throw new EmergencyException();
+        }
+        if (patients.get(fiscalCode).getStatus().equals(PatientStatus.HOSPITALIZED)) {
+            return 1;
+        } 
+        if (patients.get(fiscalCode).getStatus().equals(PatientStatus.DISCHARGED)) {
+            return 0;
+        }
+        return 0;
     }
 
     /**
