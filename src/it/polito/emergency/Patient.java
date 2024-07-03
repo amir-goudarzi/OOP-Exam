@@ -4,31 +4,48 @@ import it.polito.emergency.EmergencyApp.*;
 
 public class Patient {
 
+    String fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted;
+    PatientStatus status;
+
+    public Patient(String fiscalCode, String name, String surname, String dateOfBirth, String reason, String dateTimeAccepted) {
+        this.fiscalCode = fiscalCode;
+        this.name = name;
+        this.surname = surname;
+        this.dateOfBirth = dateOfBirth;
+        this.reason = reason;
+        this.dateTimeAccepted = dateTimeAccepted;
+        this.status = PatientStatus.ADMITTED;
+    }
+
+    public String lastFirst() {
+        return this.surname + this.name;
+    }
+
     public String getFiscalCode() {
-        return null;
+        return this.fiscalCode;
     }
 
     public String getName() {
-        return null;
+        return this.name;
     }
 
     public String getSurname() {
-        return null;
+        return this.surname;
     }
 
     public String getDateOfBirth() {
-        return null;
+        return this.dateOfBirth;
     }
 
     public String getReason() {
-        return null;
+        return this.reason;
     }
 
     public String getDateTimeAccepted() {
-        return null;
+        return this.dateTimeAccepted;
     }
 
     public PatientStatus getStatus() {
-        return null;
+        return this.status;
     }
 }

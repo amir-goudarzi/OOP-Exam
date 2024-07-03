@@ -3,6 +3,7 @@ package it.polito.emergency;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.*;
@@ -11,10 +12,12 @@ public class EmergencyApp {
 
     TreeMap<String, Professional> professionals;
     TreeMap<String, Department> departments;
+    TreeMap<String, Patient> patients;
 
     public EmergencyApp() {
         this.professionals = new TreeMap<>();
         this.departments = new TreeMap<>();
+        this.patients = new TreeMap<>();
     }
 
     public enum PatientStatus {
@@ -191,8 +194,12 @@ public class EmergencyApp {
      * @param dateTimeAccepted The date and time the patient was accepted into the emergency system.
      */
     public Patient addPatient(String fiscalCode, String name, String surname, String dateOfBirth, String reason, String dateTimeAccepted) {
-        //TODO: to be implemented
-        return null;
+        if (patients.containsKey(fiscalCode)) {
+            return patients.get(fiscalCode);
+        }
+        Patient newPatient = new Patient(fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted);
+        patients.put(fiscalCode, newPatient);
+        return newPatient;
     }
 
     /**
@@ -203,8 +210,14 @@ public class EmergencyApp {
      *         Returns an empty collection if no match is found.
      */    
     public List<Patient> getPatient(String identifier) throws EmergencyException {
-        //TODO: to be implemented
-        return null;
+        List<Patient> byLastName = patients.values().stream().filter(p -> p.getSurname().equals(identifier))
+                                    .collect(Collectors.toList());
+        List<Patient> byCode = patients.values().stream().filter(p -> p.getFiscalCode().equals(identifier))
+                                .collect(Collectors.toList());
+        if (byLastName.size() > byCode.size()) {
+            return byLastName;
+        } 
+        return byCode;
     }
 
     /**
@@ -216,8 +229,8 @@ public class EmergencyApp {
      *         Returns an empty list if no patients were accepted on that date.
      */
     public List<String> getPatientsByDate(String date) {
-        //TODO: to be implemented
-        return null;
+        return patients.values().stream().filter(p -> p.getDateTimeAccepted().equals(date))
+        .sorted((p, q) -> p.lastFirst().compareTo(q.lastFirst())).map(p -> p.getFiscalCode()).collect(Collectors.toList());
     }
 
     /**
@@ -229,7 +242,7 @@ public class EmergencyApp {
      * @throws EmergencyException If the patient does not exist, if no professionals with the required specialization are found, or if none are available during the period of the request.
      */
     public String assignPatientToProfessional(String fiscalCode, String specialization) throws EmergencyException {
-        //TODO: to be implemented
+        
         return null;
     }
 
