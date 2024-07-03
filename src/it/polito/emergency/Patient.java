@@ -4,7 +4,7 @@ import it.polito.emergency.EmergencyApp.*;
 
 public class Patient {
 
-    String fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted;
+    String fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted, departmentName;
     PatientStatus status;
 
     public Patient(String fiscalCode, String name, String surname, String dateOfBirth, String reason, String dateTimeAccepted) {
@@ -15,6 +15,11 @@ public class Patient {
         this.reason = reason;
         this.dateTimeAccepted = dateTimeAccepted;
         this.status = PatientStatus.ADMITTED;
+        this.departmentName = "";
+    }
+
+    public void assigntoDepartment(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     public String lastFirst() {
