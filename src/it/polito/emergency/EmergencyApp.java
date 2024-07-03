@@ -3,6 +3,7 @@ package it.polito.emergency;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -13,11 +14,13 @@ public class EmergencyApp {
     TreeMap<String, Professional> professionals;
     TreeMap<String, Department> departments;
     TreeMap<String, Patient> patients;
+    TreeMap<String, Report> reports;
 
     public EmergencyApp() {
         this.professionals = new TreeMap<>();
         this.departments = new TreeMap<>();
         this.patients = new TreeMap<>();
+        this.reports = new TreeMap<>();
     }
 
     public enum PatientStatus {
@@ -242,13 +245,27 @@ public class EmergencyApp {
      * @throws EmergencyException If the patient does not exist, if no professionals with the required specialization are found, or if none are available during the period of the request.
      */
     public String assignPatientToProfessional(String fiscalCode, String specialization) throws EmergencyException {
-        
-        return null;
+        if (!patients.containsKey(fiscalCode)) {
+            throw new EmergencyException();
+        }
+        Patient myPatient = patients.get(fiscalCode);
+        List<Professional> selectedProfessionals = professionals.values().stream()
+        .filter(p -> p.specialization.equals(specialization) && p.isAvailable(myPatient.getDateTimeAccepted()))
+        .collect(Collectors.toList());
+        if (selectedProfessionals.isEmpty()) {
+            throw new EmergencyException();
+        }
+        Collections.sort(selectedProfessionals, (p, q) -> p.getId().compareTo(q.getId()));                                            
+        return selectedProfessionals.get(0).getId();
     }
 
     public Report saveReport(String professionalId, String fiscalCode, String date, String description) throws EmergencyException {
-        //TODO: to be implemented
-        return null;
+        if (!professionals.containsKey(professionalId)) {
+            throw new EmergencyException();
+        }
+        Report newReport = new Report(professionalId, fiscalCode, date, description);
+        reports.put(newReport.getId(), newReport);
+        return newReport;
     }
 
     /**

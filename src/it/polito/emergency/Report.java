@@ -2,24 +2,34 @@ package it.polito.emergency;
 
 public class Report {
 
+    String reportID, fiscalCode, professionalID, date, description;
+
+    public Report(String professionalId, String fiscalCode, String date, String description) {
+        this.fiscalCode = fiscalCode;
+        this.professionalID = professionalId;
+        this.date = date;
+        this.description = description;
+        this.reportID = fiscalCode + professionalId + date;
+    }
+
     public String getId() {
-        return null;
+        return reportID;
     }
 
     public String getProfessionalId() {
-        return null;
+        return professionalID;
     }
 
     public String getFiscalCode() {
-        return null;
+        return fiscalCode;
     }
 
     public String getDate() {
-        return null;
+        return date;
     }
 
 
     public String getDescription() {
-        return null;
+        return description;
     }
 }
