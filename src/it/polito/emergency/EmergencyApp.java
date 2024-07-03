@@ -118,6 +118,7 @@ public class EmergencyApp {
      */
     public int readFromFileProfessionals(Reader reader) throws IOException {
         int i = 0;
+        int count = 0;
         try {
             if (reader == null) {
                 throw new IOException();
@@ -135,13 +136,13 @@ public class EmergencyApp {
                 String specialization = line.split(",")[3];
                 String period = line.split(",")[4];
                 this.addProfessional(id, name, surname, specialization, period);
-                i++;
+                count++;
             }
         } catch (IOException e) {
             throw new IOException();
         }
 
-        return i;
+        return count;
     }
 
     /**
@@ -155,6 +156,7 @@ public class EmergencyApp {
      */    
     public int readFromFileDepartments(Reader reader) throws IOException {
         int i = 0;
+        int count = 0;
         try {
             if (reader == null) {
                 throw new IOException();
@@ -169,13 +171,13 @@ public class EmergencyApp {
                 String name = line.split(",")[0];
                 int maxPatients = Integer.parseInt(line.split(",")[1]);
                 this.addDepartment(name, maxPatients);
-                i++;
+                count++;
             }
         } catch (IOException e) {
             throw new IOException();
         }
 
-        return i;
+        return count;
     }
 
     /**
