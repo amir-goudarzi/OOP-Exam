@@ -235,7 +235,7 @@ public class EmergencyApp {
      */
     public List<String> getPatientsByDate(String date) {
         return patients.values().stream().filter(p -> p.getDateTimeAccepted().equals(date))
-        .sorted((p, q) -> q.lastFirst().compareTo(p.lastFirst())).map(p -> p.getFiscalCode()).collect(Collectors.toList());
+        .sorted((p, q) -> p.lastFirst().compareTo(q.lastFirst())).map(p -> p.getFiscalCode()).collect(Collectors.toList());
     }
 
     /**
@@ -260,7 +260,7 @@ public class EmergencyApp {
         if (selectedProfessionals.size() == 1) {
             return selectedProfessionals.get(0).getId();
         }
-        Collections.sort(selectedProfessionals, (p, q) -> q.getId().compareTo(p.getId()));                                            
+        Collections.sort(selectedProfessionals, (p, q) -> p.getId().compareTo(q.getId()));                                            
         return selectedProfessionals.get(0).getId();
     }
 
