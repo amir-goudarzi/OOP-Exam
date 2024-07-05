@@ -68,8 +68,10 @@ public class EmergencyApp {
      * @throws EmergencyException If no professionals are found with the specified specialization.
      */    
     public List<String> getProfessionals(String specialization) throws EmergencyException {
-        return professionals.values().stream().filter(pro -> pro.specialization.equals(specialization)).map(pro -> pro.getId())
-                .collect(Collectors.toList());
+        List<String> selectedProfessionals = professionals.values().stream().filter(pro -> pro.specialization.equals(specialization)).map(pro -> pro.getId())
+        .collect(Collectors.toList());
+        if (selectedProfessionals.isEmpty()) throw new EmergencyException();
+        return selectedProfessionals;
     }
 
     /**
